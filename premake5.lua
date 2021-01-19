@@ -32,6 +32,7 @@ project "Demo"
     includedirs
     {
         "%{prj.name}/Tests",
+        "../Algorithms"
     }
 
     filter "configurations:Debug"

@@ -1,7 +1,10 @@
 #include <iostream>
 #include <chrono>
+#include <vector>
+#include <list>
+#include "algorithms.h"
 
-#include "Algorithms/Algorithms.h"
+using namespace std;
 
 struct Timer {
 private:
@@ -30,6 +33,25 @@ void printCointainer(Iter it, Iter end) {
 
 int main()
 {
-	std::cout << "Hello World" << std::endl;
+	vector<int> vi = { 4,1,0,-10,-5,3,-1,10,15,16,4 };
+	vector<float> vf = { 4.3f,-1.1f,8.9f,-5.3 };
+	list<int> li = { 4,1,0,-10,-5,3,-1,10,15,16,4 };
+	int arr[] = { 2, 5, 7, 8, 2, 6, 9 };
+
+	// Checking Sum ----------------------------------
+	auto resVi = alg::sum(vi.begin(), vi.end());
+	auto resLi = alg::sum(li.begin(), li.end());
+	auto resVf = alg::sum(vf.begin(), vf.end());
+	int size = 7;
+	auto resAi = alg::sum(arr, arr + size);
+	
+	cout << "Result = " << resVi << endl;
+	cout << "Result = " << resLi << endl;
+	cout << "Result = " << resVf << endl;
+	cout << "Result = " << resAi << endl;
+	//--------------------------------------------------
+	
+
+
 	return 1;
 }
