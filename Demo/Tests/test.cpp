@@ -16,23 +16,26 @@ public:
 		start = std::chrono::high_resolution_clock::now();
 	}
 
-	std::chrono::duration<float> endTimer() {
+	std::chrono::duration<float> endTimer(string functionName) {
 		end = std::chrono::high_resolution_clock::now();
 		duration = end - start;
-		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << " ms" << std::endl;
+		std::cout << functionName.c_str() << " " 
+			<< std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() 
+			<< " ms" << std::endl;
 		return duration;
 	}
 };
 
 template <typename Iter>
-void printCointainer(Iter it, Iter end) {
-	for (; it != end; ++it) { std::cout << *it << " "; }
+void printCointainer(Iter it, Iter last) {
+	for (; it != last; ++it) { std::cout << *it << " "; }
 	std::cout << std::endl;
 }
 
 
 int main()
 {
+	Timer timer;
 	vector<int> vi = { 4,1,0,-10,-5,3,-1,10,15,16,4 };
 	vector<float> vf = { 4.3f,-1.1f,8.9f,-5.3 };
 	list<int> li = { 4,1,0,-10,-5,3,-1,10,15,16,4 };
@@ -51,7 +54,14 @@ int main()
 	cout << "Result = " << resAi << endl;
 	//--------------------------------------------------
 	
+	//BubbleSort ---------------------------------------
+	printCointainer(vi.begin(), vi.end());
+	timer.startTimer();
+	alg::BubbleSort(vi.begin(), vi.end());
+	timer.endTimer("BubbleSort");
+	printCointainer(vi.begin(), vi.end());
 
+	//--------------------------------------------------
 
 	return 1;
 }
