@@ -102,13 +102,19 @@ int main()
 	//RandomValues--------------------------------------
 	std::cout << std::endl;
 	std::cout << " Random Values Float" << std::endl;
+
 	std::vector<float> random(200);
+	
 	fillRandomValues(random.begin(), random.end(), 2);
+	
 	printCointainer(random.begin(), random.end());
+	
 	std::cout << std::endl;
+	
 	timer.startTimer();
 	alg::BubbleSort(random.begin(), random.end());
 	timer.endTimer("BubbleSort Float");
+	
 	printCointainer(random.begin(), random.end());
 
 	std::cout << std::endl;
@@ -122,6 +128,30 @@ int main()
 	timer.endTimer("BubbleSort Int");
 	printCointainer(random2.begin(), random2.end());
 
+	//--------------------------------------------------
+
+	//Comparatives--------------------------------------
+
+	std::vector<int> VBubble(200);
+
+	fillRandomValues(VBubble.begin(), VBubble.end(), 2);
+
+	std::vector<int> VSelection(VBubble);
+
+	std::cout << std::endl;
+	std::cout << " Comparatives Int Bubble vs Selection" << std::endl;
+
+	std::cout << std::endl;
+	timer.startTimer();
+	alg::BubbleSort(VBubble.begin(), VBubble.end());
+	timer.endTimer("BubbleSort Int");
+	printCointainer(VBubble.begin(), VBubble.end());
+
+	std::cout << std::endl;
+	timer.startTimer();
+	alg::SelectionSort(VSelection.begin(), VSelection.end());
+	timer.endTimer("SelectionSort Int");
+	printCointainer(VSelection.begin(), VSelection.end());
 	//--------------------------------------------------
 
 	return 1;
