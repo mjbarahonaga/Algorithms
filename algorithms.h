@@ -5,7 +5,7 @@ namespace alg {
 
 	template< class It, class T = typename std::iterator_traits<It>::value_type >
 	///Sums up a range of elements
-	T sum(It first, It last) {
+	_NODISCARD __forceinline T sum(It first, It last) noexcept {
 		T val = T{};
 		for (auto it = first; it != last; ++it)
 			val += *it;
@@ -15,7 +15,7 @@ namespace alg {
 	//Sorting operations
 	///Sorting a range into ascending order using Bubble Sort algorithm
 	template<class It>
-	void BubbleSort(It first, It last) {
+	__forceinline void BubbleSort(It first, It last) noexcept {
 
 		unsigned long long counter = 0;
 		while ((first + counter) != last) {
@@ -34,7 +34,7 @@ namespace alg {
 
 	///Sorting a range into ascending order using Selection Sort algorithm
 	template<class It>
-	void SelectionSort(It first, It last) {
+	__forceinline void SelectionSort(It first, It last) noexcept {
 		while (first != last) {
 			auto it_smaller = first;
 			for (auto it = first; it != last; ++it) {
@@ -53,7 +53,7 @@ namespace alg {
 	///Sorting a range into ascending order using Selection Sort algorithm
 	///but selecting at the same time the bigger number also
 	template<class It>
-	void SelectionDoubleSort(It first, It last) {
+	__forceinline void SelectionDoubleSort(It first, It last) noexcept {
 		while (first != last && first < last) {
 			auto it_smaller = first;
 			auto it_bigger = first;
@@ -66,7 +66,9 @@ namespace alg {
 			*first = *it_smaller;
 			*it_smaller = tempS;
 
-			if (*it_bigger == *first) it_bigger = first;
+			//If the it_bigger is pointing to the first iteration, it's changed to the 
+			//new location where the biggest number is
+			if (it_bigger == first) it_bigger = it_smaller;
 
 			const auto tempB = *(last - 1);
 			*(last - 1) = *it_bigger;
@@ -77,4 +79,22 @@ namespace alg {
 		}
 	}
 	
+	///Sorting a range into ascending order using Insertion Sort algorithm
+	template<class It>
+	__forceinline void InsertionSort(It first, It last) noexcept {
+		for (auto it = first; it != (last - 1); ++it) {
+			auto it_next = it + 1;
+			if (*it > *it_next) {
+				for (auto it_ins = it_next; it_ins != first; --it_ins) {
+					auto it_prev = it_ins - 1;
+					if (*it_prev > *it_ins) {
+						const auto temp = *it_prev;
+						*it_prev = *it_ins;
+						*it_ins = temp;
+					}
+					else break;
+				}
+			}
+		}
+	}
 }

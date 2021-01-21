@@ -132,33 +132,45 @@ int main()
 
 	//Comparatives--------------------------------------
 
-	std::vector<int> VBubble(200);
+	std::vector<int> VBubble(2000);
 
 	fillRandomValues(VBubble.begin(), VBubble.end(), 2);
 
 	std::vector<int> VSelection(VBubble);
 	std::vector<int> VSelectionDouble(VBubble);
+	std::vector<int> VInsertion(VBubble);
 
 	std::cout << std::endl;
-	std::cout << " Comparatives Int Bubble vs Selection" << std::endl;
+	//std::cout << " Comparatives Int Bubble vs Selection" << std::endl;
 
 	std::cout << std::endl;
-	timer.startTimer();
+	/*timer.startTimer();
 	alg::BubbleSort(VBubble.begin(), VBubble.end());
 	timer.endTimer("BubbleSort Int");
-	printCointainer(VBubble.begin(), VBubble.end());
+	printCointainer(VBubble.begin(), VBubble.end());*/
 
 	std::cout << std::endl;
 	timer.startTimer();
 	alg::SelectionDoubleSort(VSelection.begin(), VSelection.end());
 	timer.endTimer("SelectionSort Int");
-	printCointainer(VSelection.begin(), VSelection.end());
+	//printCointainer(VSelection.begin(), VSelection.end());
 
 	std::cout << std::endl;
 	timer.startTimer();
 	alg::SelectionDoubleSort(VSelectionDouble.begin(), VSelectionDouble.end());
 	timer.endTimer("SelectionDoubleSort Int");
-	printCointainer(VSelectionDouble.begin(), VSelectionDouble.end());
+	//printCointainer(VSelectionDouble.begin(), VSelectionDouble.end());
+
+	bool eq = std::equal(VSelection.begin(), VSelection.end(), VSelectionDouble.begin());
+	std::cout << "Is equal " << eq << std::endl;
+
+	std::cout << std::endl;
+	timer.startTimer();
+	alg::InsertionSort(VInsertion.begin(), VInsertion.end());
+	timer.endTimer("InsertionSort Int");
+	//printCointainer(VInsertion.begin(), VInsertion.end());
+	eq = std::equal(VInsertion.begin(), VInsertion.end(), VSelectionDouble.begin());
+	std::cout << "Is equal " << eq << std::endl;
 	//--------------------------------------------------
 
 	return 1;
