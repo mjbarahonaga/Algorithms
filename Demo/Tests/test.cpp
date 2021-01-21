@@ -137,6 +137,7 @@ int main()
 	fillRandomValues(VBubble.begin(), VBubble.end(), 2);
 
 	std::vector<int> VSelection(VBubble);
+	std::vector<int> VSelectionDouble(VBubble);
 
 	std::cout << std::endl;
 	std::cout << " Comparatives Int Bubble vs Selection" << std::endl;
@@ -149,8 +150,14 @@ int main()
 
 	std::cout << std::endl;
 	timer.startTimer();
-	alg::SelectionSort(VSelection.begin(), VSelection.end());
+	alg::SelectionDoubleSort(VSelection.begin(), VSelection.end());
 	timer.endTimer("SelectionSort Int");
+	printCointainer(VSelection.begin(), VSelection.end());
+
+	std::cout << std::endl;
+	timer.startTimer();
+	alg::SelectionDoubleSort(VSelectionDouble.begin(), VSelectionDouble.end());
+	timer.endTimer("SelectionDoubleSort Int");
 	printCointainer(VSelection.begin(), VSelection.end());
 	//--------------------------------------------------
 

@@ -50,5 +50,33 @@ namespace alg {
 			++first;
 		}
 	}
+
+	template<class It>
+	void SelectionDoubleSort(It first, It last) {
+		while (first != last) {
+			auto it_smaller = first;
+			auto it_bigger = last - 1;
+			for (auto it = first; it != last; ++it) {
+				if (*it_smaller > *it) {
+					it_smaller = it;
+				}
+				else if (*it_bigger < *it) {
+					it_bigger = it;
+				}
+			}
+			if (it_smaller != first && it_smaller != it_bigger) {
+				const auto temp = *first;
+				*first = *it_smaller;
+				*it_smaller = temp;
+			}
+			if (it_bigger != (last - 1)) {
+				const auto temp = *(last - 1);
+				*(last - 1) = *it_bigger;
+				*it_bigger = temp;
+			}
+			++first;
+			if (first != last) --last;
+		}
+	}
 	
 }
