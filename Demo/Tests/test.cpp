@@ -139,6 +139,7 @@ int main()
 	std::vector<int> VSelection(VBubble);
 	std::vector<int> VSelectionDouble(VBubble);
 	std::vector<int> VInsertion(VBubble);
+	std::vector<int> VShell(VBubble);
 
 	std::cout << std::endl;
 	//std::cout << " Comparatives Int Bubble vs Selection" << std::endl;
@@ -170,6 +171,15 @@ int main()
 	timer.endTimer("InsertionSort Int");
 	//printCointainer(VInsertion.begin(), VInsertion.end());
 	eq = std::equal(VInsertion.begin(), VInsertion.end(), VSelectionDouble.begin());
+	std::cout << "Is equal " << eq << std::endl;
+
+
+	std::cout << std::endl;
+	timer.startTimer();
+	alg::ShellSort(VShell.begin(), VShell.end());
+	timer.endTimer("ShellSort Int");
+	//printCointainer(VShell.begin(), VShell.end());
+	eq = std::equal(VShell.begin(), VShell.end(), VSelectionDouble.begin());
 	std::cout << "Is equal " << eq << std::endl;
 	//--------------------------------------------------
 

@@ -1,3 +1,5 @@
+typedef unsigned long long ULL;
+
 namespace alg {
 
 	// Numeric operations
@@ -17,7 +19,7 @@ namespace alg {
 	template<class It>
 	__forceinline void BubbleSort(It first, It last) noexcept {
 
-		unsigned long long counter = 0;
+		ULL counter = 0;
 		while ((first + counter) != last) {
 			for (auto it = first; (it + counter) != (last-1); ++it) {
 				auto it_next = it;
@@ -97,4 +99,20 @@ namespace alg {
 			}
 		}
 	}
+
+	///Sorting a range into ascending order using Shell Sort algorithm
+	template<class It>
+	__forceinline void ShellSort(It first, It last) noexcept {
+		auto size = std::distance(first, last);
+		for (auto interval = size >> 1; interval > 0; interval >>= 1) {
+			for (auto i = first + interval; i != last; ++i) {
+				auto temp = *i;
+				auto j = i;
+				for (; j >= (first + interval) && *(j - interval) > temp; j-=interval)
+					*j = *(j - interval);
+				*j = temp;
+			}
+		}
+	}
+
 }
