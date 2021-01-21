@@ -42,40 +42,38 @@ namespace alg {
 					it_smaller = it;
 				}
 			}
-			if (it_smaller != first) {
-				const auto temp = *first;
-				*first = *it_smaller;
-				*it_smaller = temp;
-			}
+			const auto temp = *first;
+			*first = *it_smaller;
+			*it_smaller = temp;
+			
 			++first;
 		}
 	}
 
+	///Sorting a range into ascending order using Selection Sort algorithm
+	///but selecting at the same time the bigger number also
 	template<class It>
 	void SelectionDoubleSort(It first, It last) {
-		while (first != last) {
+		while (first != last && first < last) {
 			auto it_smaller = first;
-			auto it_bigger = last - 1;
+			auto it_bigger = first;
 			for (auto it = first; it != last; ++it) {
-				if (*it_smaller > *it) {
-					it_smaller = it;
-				}
-				else if (*it_bigger < *it) {
-					it_bigger = it;
-				}
+				if (*it_smaller > *it) it_smaller = it;
+				if (*it_bigger < *it) it_bigger = it;
 			}
-			if (it_smaller != first && it_smaller != it_bigger) {
-				const auto temp = *first;
-				*first = *it_smaller;
-				*it_smaller = temp;
-			}
-			if (it_bigger != (last - 1)) {
-				const auto temp = *(last - 1);
-				*(last - 1) = *it_bigger;
-				*it_bigger = temp;
-			}
+
+			const auto tempS = *first;
+			*first = *it_smaller;
+			*it_smaller = tempS;
+
+			if (*it_bigger == *first) it_bigger = first;
+
+			const auto tempB = *(last - 1);
+			*(last - 1) = *it_bigger;
+			*it_bigger = tempB;
+			
 			++first;
-			if (first != last) --last;
+			--last;
 		}
 	}
 	

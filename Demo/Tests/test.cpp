@@ -158,7 +158,7 @@ int main()
 	timer.startTimer();
 	alg::SelectionDoubleSort(VSelectionDouble.begin(), VSelectionDouble.end());
 	timer.endTimer("SelectionDoubleSort Int");
-	printCointainer(VSelection.begin(), VSelection.end());
+	printCointainer(VSelectionDouble.begin(), VSelectionDouble.end());
 	//--------------------------------------------------
 
 	return 1;
