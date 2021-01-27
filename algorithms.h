@@ -1,13 +1,42 @@
-typedef unsigned long long ULL;
+#pragma once
+#ifdef _WIN64
+#define PLATFORM_WINDOWS 1
+#define ARCHITECTURE_64 1
+#elif _WIN32
+#define PLATFORM_WINDOWS 1
+#define ARCHITECTURE_86 1
+#elif linux
+#define PLATFORM_LINUX 1
+#elif APPLE
+#define PLATFORM_APPLE 1
+#else
+#error "Platform not supported!"
+#endif
+
+#ifdef PLATFORM_WINDOWS
+#define INLINE __forceinline
+#define NOINLINE _declspec(noinline)
+#endif
+#ifdef PLATFORM_LINUX
+#define INLINE inline
+#define NOINLINE
+#endif
+#ifdef PLATFORM_APPLE
+#define INLINE inline
+#define NOINLINE
+#endif
+
+#include <utility>
 
 namespace alg {
 
+	
 	// Numeric operations
 
 
 	template< class It, class T = typename std::iterator_traits<It>::value_type >
 	///Sums up a range of elements
-	_NODISCARD __forceinline T sum(It first, It last) noexcept {
+	_NODISCARD INLINE T sum(It first, It last) noexcept {
 		T val = T{};
 		for (auto it = first; it != last; ++it)
 			val += *it;
@@ -17,9 +46,9 @@ namespace alg {
 	//Sorting operations
 	///Sorting a range into ascending order using Bubble Sort algorithm
 	template<class It>
-	__forceinline void BubbleSort(It first, It last) noexcept {
+	INLINE void BubbleSort(It first, It last) noexcept {
 
-		ULL counter = 0;
+		size_t counter = 0;
 		while ((first + counter) != last) {
 			for (auto it = first; (it + counter) != (last-1); ++it) {
 				auto it_next = it;
@@ -36,7 +65,7 @@ namespace alg {
 
 	///Sorting a range into ascending order using Selection Sort algorithm
 	template<class It>
-	__forceinline void SelectionSort(It first, It last) noexcept {
+	INLINE void SelectionSort(It first, It last) noexcept {
 		while (first != last) {
 			auto it_smaller = first;
 			for (auto it = first; it != last; ++it) {
@@ -55,7 +84,7 @@ namespace alg {
 	///Sorting a range into ascending order using Selection Sort algorithm
 	///but selecting at the same time the bigger number also
 	template<class It>
-	__forceinline void SelectionDoubleSort(It first, It last) noexcept {
+	INLINE void SelectionDoubleSort(It first, It last) noexcept {
 		while (first != last && first < last) {
 			auto it_smaller = first;
 			auto it_bigger = first;
@@ -83,7 +112,7 @@ namespace alg {
 	
 	///Sorting a range into ascending order using Insertion Sort algorithm
 	template<class It>
-	__forceinline void InsertionSort(It first, It last) noexcept {
+	INLINE void InsertionSort(It first, It last) noexcept {
 		for (auto it = first; it != (last - 1); ++it) {
 			auto it_next = it + 1;
 			if (*it > *it_next) {
@@ -102,7 +131,7 @@ namespace alg {
 
 	///Sorting a range into ascending order using Shell Sort algorithm
 	template<class It>
-	__forceinline void ShellSort(It first, It last) noexcept {
+	INLINE void ShellSort(It first, It last) noexcept {
 		auto size = std::distance(first, last);
 		for (auto interval = size >> 1; interval > 0; interval >>= 1) {
 			for (auto i = first + interval; i != last; ++i) {

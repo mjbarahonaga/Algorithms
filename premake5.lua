@@ -26,7 +26,8 @@ project "Demo"
     files
     {
         "algorithms.h",
-        "%{prj.name}/Tests/**.cpp"
+        "%{prj.name}/Tests/**.cpp",
+        "%{prj.name}/Tests/**.hpp"
     }
 
     includedirs
