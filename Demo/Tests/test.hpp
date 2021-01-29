@@ -40,7 +40,7 @@ public:
 	static void SelectionSortDoubleTest() noexcept;
 	static void InsertionSortTest() noexcept;
 	static void ShellSortTest() noexcept;
-
+	static void MergeSortTest() noexcept;
 	
 
 private:
@@ -75,6 +75,12 @@ private:
 	template<class It> static void ShellAlmostSortedMiddleTest(It first, It last, size_t size, const std::string& Type) noexcept;
 	template<class It> static void ShellAlmostSortedBackTest(It first, It last, size_t size, const std::string& Type) noexcept;
 	template<class It> static void ShellReverseTest(It first, It last, size_t size, const std::string& Type) noexcept;
+
+	template<class It> static void MergeRandomTest(It first, It last, size_t size, const std::string& Type) noexcept;
+	template<class It> static void MergeAlmostSortedFrontTest(It first, It last, size_t size, const std::string& Type) noexcept;
+	template<class It> static void MergeAlmostSortedMiddleTest(It first, It last, size_t size, const std::string& Type) noexcept;
+	template<class It> static void MergeAlmostSortedBackTest(It first, It last, size_t size, const std::string& Type) noexcept;
+	template<class It> static void MergeReverseTest(It first, It last, size_t size, const std::string& Type) noexcept;
 };
 
 

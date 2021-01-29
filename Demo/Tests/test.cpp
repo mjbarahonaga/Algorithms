@@ -13,7 +13,7 @@
 #include "algorithms.h"
 
 static constexpr size_t g_ITERATIONS = 10;
-static constexpr size_t g_ARRAYSIZE = 3; // 1->10, 2->100, 3->1000...
+static constexpr size_t g_ARRAYSIZE = 4; // 1->10, 2->100, 3->1000...
 static constexpr size_t g_DIGITSNUMBER = 3; // // 1->9, 2->99, 3->999...
 static std::stringstream s_FileBuffer;
 
@@ -113,7 +113,7 @@ INLINE void PrintCointainer(It it, It last) noexcept {
 }
 
 template<class It>
-static bool CheckVector(It first, It last, bool ascending = true) noexcept
+static bool CheckContainer(It first, It last, bool ascending = true) noexcept
 {
 	auto next_iterator = first;
 	++next_iterator;
@@ -197,9 +197,9 @@ void WriteResults(DataSort dSort)
 	s_FileBuffer << "* Size of the container: " << dSort.getContainerSize(); WriteSpaceUntilEndOfLine(line_size - tmp);
 	WriteSeparator(line_size);
 	s_FileBuffer << (dSort.isSorted() ? "Sorted succesfully" : "Sorted failed") << std::endl;
-	s_FileBuffer << "Best time:          " << std::fixed << std::setprecision(precision) << std::chrono::duration_cast<std::chrono::microseconds>(dSort.getBest()).count() << " microseconds" << std::endl;
-	s_FileBuffer << "Worst time:         " << std::fixed << std::setprecision(precision) << std::chrono::duration_cast<std::chrono::microseconds>(dSort.getWorst()).count() << " microseconds" << std::endl;
-	s_FileBuffer << "Average time:       " << std::fixed << std::setprecision(precision) << std::chrono::duration_cast<std::chrono::microseconds>(dSort.getAverage()).count() << " microseconds" << std::endl;
+	s_FileBuffer << "Best time:          " << std::fixed << std::setprecision(precision) << dSort.getBest().count() << " seconds" << std::endl;
+	s_FileBuffer << "Worst time:         " << std::fixed << std::setprecision(precision) << dSort.getWorst().count() << " seconds" << std::endl;
+	s_FileBuffer << "Average time:       " << std::fixed << std::setprecision(precision) << dSort.getAverage().count() << " seconds" << std::endl;
 	s_FileBuffer << std::endl;
 	s_FileBuffer << std::endl;
 }
@@ -213,6 +213,7 @@ void Test::RunTest() noexcept
 	SelectionSortDoubleTest();
 	InsertionSortTest();
 	ShellSortTest();
+	MergeSortTest();
 }
 
 
@@ -262,6 +263,15 @@ void Test::ShellSortTest() noexcept
 	}
 }
 
+void Test::MergeSortTest() noexcept
+{
+	for (size_t i = 0; i < g_ARRAYSIZE; ++i) {
+		std::vector<int> vi;
+		vi.resize((size_t)pow(10, 1 + i));
+		MergeRandomTest(vi.begin(), vi.end(), vi.size(), "Vector int");
+	}
+}
+
 template<class It>
 void Test::BubbleRandomTest(It first, It last, size_t size, const std::string& Type) noexcept
 {
@@ -282,7 +292,7 @@ void Test::BubbleRandomTest(It first, It last, size_t size, const std::string& T
 		average += time;
 		if (time < best) { best = time; }
 		if (time > worst) { worst = time; }
-		if (sorted) { sorted = CheckVector(first,last); }
+		if (sorted) { sorted = CheckContainer(first,last); }
 	}
 	average /= g_ITERATIONS;
 	std::string type = "Randomized ";
@@ -312,7 +322,7 @@ void Test::SelectionRandomTest(It first, It last, size_t size, const std::string
 		average += time;
 		if (time < best) { best = time; }
 		if (time > worst) { worst = time; }
-		if (sorted) { sorted = CheckVector(first, last); }
+		if (sorted) { sorted = CheckContainer(first, last); }
 	}
 	average /= g_ITERATIONS;
 	std::string type = "Randomized ";
@@ -341,7 +351,7 @@ void Test::SelectionDoubleRandomTest(It first, It last, size_t size, const std::
 		average += time;
 		if (time < best) { best = time; }
 		if (time > worst) { worst = time; }
-		if (sorted) { sorted = CheckVector(first, last); }
+		if (sorted) { sorted = CheckContainer(first, last); }
 	}
 	average /= g_ITERATIONS;
 	std::string type = "Randomized ";
@@ -370,7 +380,7 @@ void Test::InsertionRandomTest(It first, It last, size_t size, const std::string
 		average += time;
 		if (time < best) { best = time; }
 		if (time > worst) { worst = time; }
-		if (sorted) { sorted = CheckVector(first, last); }
+		if (sorted) { sorted = CheckContainer(first, last); }
 	}
 	average /= g_ITERATIONS;
 	std::string type = "Randomized ";
@@ -399,12 +409,41 @@ void Test::ShellRandomTest(It first, It last, size_t size, const std::string& Ty
 		average += time;
 		if (time < best) { best = time; }
 		if (time > worst) { worst = time; }
-		if (sorted) { sorted = CheckVector(first, last); }
+		if (sorted) { sorted = CheckContainer(first, last); }
 	}
 	average /= g_ITERATIONS;
 	std::string type = "Randomized ";
 	type += Type;
 	DataSort dSort(size, "Shell Sort", type.c_str(), sorted, best, average, worst);
+	WriteResults(dSort);
+	SerializeResults();
+}
+
+template<class It>
+inline void Test::MergeRandomTest(It first, It last, size_t size, const std::string & Type) noexcept
+{
+	bool sorted = true;
+	std::chrono::duration<double> best = std::chrono::duration<double, std::ratio<1>>(INFINITY);
+	std::chrono::duration<double> average = std::chrono::duration<double, std::ratio<1>>(0);;
+	std::chrono::duration<double> worst = std::chrono::duration<double, std::ratio<1>>(0);;
+	std::cout << "Random Test with size: " << size << std::endl;
+	for (size_t j = 0; j < g_ITERATIONS; ++j)
+	{
+		std::cout << "\tIteration: " << j << std::endl;
+		FillRandomValues(first, last, g_DIGITSNUMBER);
+		Timer timer;
+		timer.startTimer();
+		alg::ShellSort(first, last);
+		std::chrono::duration<double> time = timer.endTimer();;
+		average += time;
+		if (time < best) { best = time; }
+		if (time > worst) { worst = time; }
+		if (sorted) { sorted = CheckContainer(first, last); }
+	}
+	average /= g_ITERATIONS;
+	std::string type = "Randomized ";
+	type += Type;
+	DataSort dSort(size, "Merge Sort", type.c_str(), sorted, best, average, worst);
 	WriteResults(dSort);
 	SerializeResults();
 }

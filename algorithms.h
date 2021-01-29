@@ -144,4 +144,35 @@ namespace alg {
 		}
 	}
 
+	///Function that sorts the containers 
+	template<class It>
+	INLINE void Merge(It beginning_first_merge, It end_first_merge,
+		It beginning_second_merge, It end_second_merge) noexcept {
+		
+		//It's used Selection Sort because is the fastest at the moment when
+		//the container is almost ordered
+		SelectionDoubleSort(beginning_first_merge, end_first_merge);
+		SelectionDoubleSort(beginning_second_merge, end_second_merge);
+		SelectionDoubleSort(beginning_first_merge, end_second_merge);
+
+	}
+
+	///Sorting a range into ascending order using Merge Sort algorithm
+	template<class It>
+	INLINE void MergeSort(It first, It last) noexcept {
+		auto size = std::distance(first, last);
+		if (first == last) return;
+		auto middle = size >> 1;	// size/2
+		auto beginning_first_merge = first;
+		auto end_first_merge = first + middle;
+		auto beginning_second_merge = end_first_merge + 1;
+		auto end_second_merge = last;
+
+		MergeSort(beginning_first_merge, end_first_merge);
+		MergeSort(beginning_second_merge, end_second_merge);
+
+		Merge(beginning_first_merge, end_first_merge,
+			beginning_second_merge, end_second_merge);
+
+	}
 }
